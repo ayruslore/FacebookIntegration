@@ -157,7 +157,7 @@ var localize = {"siteurl":"http:\/\/direct-air.themewoop.com","tempdir":"http:\/
 
 What will you uncover in your neighborhood?		<div class="home-filter">
 			<!--<input id="home-filter-keyword" type="text" class="big-bubble-input" placeholder="Your keyword..">-->
-			<a href="#" class="home-post-button">Post new Listing</a>
+			<a data-toggle="modal" data-target="#direct-login-form" class="home-post-button" href="#">Post new Listing</a>
 			<div class="wrap-home-filter-location">
 				<input id="home-filter-location" type="text" class="big-bubble-input" placeholder="Location">
 				<a href="#" class="share-my-location"><i class="fa fa-crosshairs"></i></a>
@@ -176,6 +176,66 @@ What will you uncover in your neighborhood?		<div class="home-filter">
 	</div>
 </div>
 <!-- END MAP SECTION -->
+
+<!-- START MODAL LOGIN SECTION -->
+    <!-- Star Modal Resurva -->
+  <div class="modal fade" id="direct-login-form" tabindex="-1" role="dialog" aria-labelledby="direct-login-form-label" aria-hidden="true">
+      <div class="vertical-alignment-helper">
+          <div class="modal-dialog vertical-align-center">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                      </button>
+                       <h4 class="modal-title" id="direct-login-form-label">Login</h4>
+
+                  </div>
+                  <div class="modal-body">
+                    <div class="wrap-login-form wrap-reviews">
+                      <form id="direct-login" action="http://direct-air.themewoop.com/directory-category/coffee-lounge/login" method="post" class="form-horizontal">
+                        <div class="form-group">
+                          <label class="col-sm-3" for="direct_username">Username</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" id="direct_username" placeholder="Username">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-3" for="direct_password">Password</label>
+                          <div class="col-sm-9">
+                            <input type="password" class="form-control" id="direct_password" placeholder="Password">
+                          </div>
+                        </div>
+                        <div class="wrap-slidecheck clearfix">
+                          <div class="col-sm-3"></div>
+                          <div class="col-sm-9">
+                            <div class="slidecheck">
+                              <input type="checkbox" id="direct_remember_me" name="check" />
+                              <label for="direct_remember_me"></label>
+                            </div>
+                            <span>Remember me</span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-3"></label>
+                          <div class="col-sm-9">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="col-sm-3"></label>
+                          <div class="col-sm-9">
+                            <p class="help-block"><a href="../direct-air.themewoop.com/vxeg/indexc2b6.html?action=lostpassword">Lost your password?</a><span> or </span><a href="../direct-air.themewoop.com/membership-account/index.html">Register an Account</a></p>
+                          </div>
+                        </div>
+                        <input type="hidden" id="direct_security" name="direct_security" value="f0abedaf74" /><input type="hidden" name="_wp_http_referer" value="/directory-category/coffee-lounge/" />                      </form>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- End Modal Resurva -->
+
 <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key=AIzaSyC55u9TRr4cTJbe5GVb0mAvJVVVAwvtPMk&amp;sensor=false&amp;libraries=places'></script>
 <script type='text/javascript' src='wp-content/themes/direct/js/vendor/jquery.flexslider.js'></script>
 <script type='text/javascript' src='wp-content/themes/direct/js/vendor/infobubble661b.js?ver=0.8'></script>

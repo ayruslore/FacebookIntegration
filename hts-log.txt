@@ -1,0 +1,106 @@
+HTTrack3.48-21+htsswf+htsjava launched on Wed, 12 Aug 2015 17:13:54 at http://direct-air.themewoop.com/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" http://direct-air.themewoop.com/ -O1 "C:\Users\RTK\Desktop\ChoriKiWebsite\Abhijay" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+17:15:20	Error: 	"Method Not Allowed" (405) at link direct-air.themewoop.com/xmlrpc.php (from direct-air.themewoop.com/)
+17:18:42	Warning: 	Moved Temporarily for direct-air.themewoop.com/submit-directory/
+17:18:42	Warning: 	File has moved from direct-air.themewoop.com/submit-directory/ to http://direct-air.themewoop.com/membership-account/
+17:19:11	Error: 	"Not Found" (404) at link direct-air.themewoop.com/my-account (from direct-air.themewoop.com/)
+17:19:11	Error: 	"Not Found" (404) at link direct-air.themewoop.com/cart/?add-to-cart=141 (from direct-air.themewoop.com/)
+17:19:11	Error: 	"Not Found" (404) at link direct-air.themewoop.com/cart/?add-to-cart=146 (from direct-air.themewoop.com/)
+17:19:15	Error: 	"Error when decompressing" (-1) at link direct-air.themewoop.com/blog (from direct-air.themewoop.com/)
+17:19:16	Warning: 	Moved Temporarily for direct-air.themewoop.com/vxeg/?action=lostpassword
+17:19:16	Warning: 	File has moved from direct-air.themewoop.com/vxeg/?action=lostpassword to http://direct-air.themewoop.com/membership-account/
+17:19:16	Warning: 	Moved Temporarily for direct-air.themewoop.com/membership-account/
+17:19:16	Warning: 	File has moved from direct-air.themewoop.com/membership-account/ to http://direct-air.themewoop.com/membership-account/membership-levels/
+17:19:28	Error: 	"Not Found" (404) at link direct-air.themewoop.com/GET (from direct-air.themewoop.com/wp-content/themes/direct/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js?ver=2.8.3)
+17:19:28	Error: 	"Not Found" (404) at link direct-air.themewoop.com/Popover requires tooltip.js (from direct-air.themewoop.com/wp-content/themes/direct/js/vendor/bootstrap.js?ver=4.2.4)
+17:19:55	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/cellarium-cafe/feed/ (from direct-air.themewoop.com/directory/cellarium-cafe/)
+17:19:55	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=234
+17:19:55	Warning: 	File has moved from direct-air.themewoop.com/?p=234 to http://direct-air.themewoop.com/directory/cellarium-cafe/
+17:19:56	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/caffe-nero/feed/ (from direct-air.themewoop.com/directory/caffe-nero/)
+17:19:58	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=91
+17:19:58	Warning: 	File has moved from direct-air.themewoop.com/?p=91 to http://direct-air.themewoop.com/directory/caffe-nero/
+17:20:00	Warning: 	Retry after error -5 (Unable to get server's address: No such host is known. ) at link direct.local/wp-content/uploads/2015/03/15825302012_5fb39636c9_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:02	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15800085646_cb0ffcf6ce_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:04	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637909759_4421326c31_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:06	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/8110122610_59ee6bc199_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:09	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637897079_6e797f3ab6_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:11	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/4385732951_fd0542c2cf_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:13	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/2101787359_76636f182a_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=186
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=186 to http://direct-air.themewoop.com/blog/
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=10
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=10 to http://direct-air.themewoop.com/plan-pricing/
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/gouman-restaurant/feed/ (from direct-air.themewoop.com/directory/gouman-restaurant/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=248
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=248 to http://direct-air.themewoop.com/directory/gouman-restaurant/
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/st-stephens-tavern-pub/feed/ (from direct-air.themewoop.com/directory/st-stephens-tavern-pub/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=245
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=245 to http://direct-air.themewoop.com/directory/st-stephens-tavern-pub/
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/dali-cafe/feed/ (from direct-air.themewoop.com/directory/dali-cafe/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=151
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=151 to http://direct-air.themewoop.com/directory/dali-cafe/
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/tattershall-castle/feed/ (from direct-air.themewoop.com/directory/tattershall-castle/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=96
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=96 to http://direct-air.themewoop.com/directory/tattershall-castle/
+17:20:16	Error: 	"Not Found" (404) at link www.thetattershallcastle.co.uk/assets/images/on-board.jpg (from direct-air.themewoop.com/directory/tattershall-castle/)
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/cucina-cafe-bar-restaurant/feed/ (from direct-air.themewoop.com/directory/cucina-cafe-bar-restaurant/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=87
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=87 to http://direct-air.themewoop.com/directory/cucina-cafe-bar-restaurant/
+17:20:16	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/london-aquarium-cafe/feed/ (from direct-air.themewoop.com/directory/london-aquarium-cafe/)
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=88
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=88 to http://direct-air.themewoop.com/directory/london-aquarium-cafe/
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=180
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=180 to http://direct-air.themewoop.com/2015/03/16/take-me-out-of-country/
+17:20:16	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=179
+17:20:16	Warning: 	File has moved from direct-air.themewoop.com/?p=179 to http://direct-air.themewoop.com/2015/03/16/food-in-united-kingdom/
+17:20:17	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=178
+17:20:17	Warning: 	File has moved from direct-air.themewoop.com/?p=178 to http://direct-air.themewoop.com/2015/03/16/london-in-our-heart/
+17:20:18	Error: 	"Not Found" (404) at link direct-air.themewoop.com/HEAD (from direct-air.themewoop.com/wp-content/themes/direct/js/vendor/retina.js?ver=1.3.0)
+17:20:19	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/starbucks/feed/ (from direct-air.themewoop.com/directory/starbucks/)
+17:20:19	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=85
+17:20:19	Warning: 	File has moved from direct-air.themewoop.com/?p=85 to http://direct-air.themewoop.com/directory/starbucks/
+17:20:20	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637897079_8da82b4513_o.jpg (from direct-air.themewoop.com/directory/starbucks/)
+17:20:22	Error: 	"Not Found" (404) at link direct-air.themewoop.com/directory/switchroom-cafeteria/feed/ (from direct-air.themewoop.com/directory/switchroom-cafeteria/)
+17:20:22	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=84
+17:20:22	Warning: 	File has moved from direct-air.themewoop.com/?p=84 to http://direct-air.themewoop.com/directory/switchroom-cafeteria/
+17:20:23	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=189
+17:20:23	Warning: 	File has moved from direct-air.themewoop.com/?p=189 to http://direct-air.themewoop.com/my-directory/
+17:20:24	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15825302012_5fb39636c9_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:26	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15800085646_cb0ffcf6ce_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:29	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637909759_4421326c31_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:31	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/8110122610_59ee6bc199_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:33	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637897079_6e797f3ab6_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:35	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/4385732951_fd0542c2cf_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:38	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/2101787359_76636f182a_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:40	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=420
+17:20:40	Warning: 	File has moved from direct-air.themewoop.com/?p=420 to http://direct-air.themewoop.com/membership-account/membership-levels/
+17:20:43	Warning: 	Retry after error -5 (Unable to get server's address: unknown error) at link direct.local/wp-content/uploads/2015/03/15637897079_8da82b4513_o.jpg (from direct-air.themewoop.com/directory/starbucks/)
+17:20:45	Warning: 	Moved Permanently for direct-air.themewoop.com/my-directory/air/page/1/
+17:20:45	Warning: 	File has moved from direct-air.themewoop.com/my-directory/air/page/1/ to http://direct-air.themewoop.com/my-directory/air/
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/15825302012_5fb39636c9_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/15800085646_cb0ffcf6ce_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/15637909759_4421326c31_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/8110122610_59ee6bc199_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/15637897079_6e797f3ab6_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:45	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/4385732951_fd0542c2cf_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:46	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/2101787359_76636f182a_z.jpg (from direct-air.themewoop.com/directory/caffe-nero/)
+17:20:46	Warning: 	Moved Temporarily for direct-air.themewoop.com/membership-account/membership-checkout/
+17:20:46	Warning: 	File has moved from direct-air.themewoop.com/membership-account/membership-checkout/ to http://direct-air.themewoop.com/membership-account/membership-levels/
+17:20:46	Warning: 	Moved Permanently for direct-air.themewoop.com/?p=417
+17:20:46	Warning: 	File has moved from direct-air.themewoop.com/?p=417 to http://direct-air.themewoop.com/membership-account/membership-checkout/
+17:20:46	Warning: 	Moved Temporarily for direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D1
+17:20:46	Warning: 	File has moved from direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D1 to http://direct-air.themewoop.com/membership-account/
+17:20:47	Warning: 	Moved Temporarily for direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D2
+17:20:47	Warning: 	File has moved from direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D2 to http://direct-air.themewoop.com/membership-account/
+17:20:47	Warning: 	Moved Temporarily for direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D3
+17:20:47	Warning: 	File has moved from direct-air.themewoop.com/vxeg/?redirect_to=http%3A%2F%2Fdirect-air.themewoop.com%2Fmembership-account%2Fmembership-checkout%2F%3Flevel%3D3 to http://direct-air.themewoop.com/membership-account/
+17:20:47	Error: 	"Unable to get server's address: unknown error" (-5) after 2 retries at link direct.local/wp-content/uploads/2015/03/15637897079_8da82b4513_o.jpg (from direct-air.themewoop.com/directory/starbucks/)
+
+HTTrack Website Copier/3.48-21 mirror complete in 6 minutes 53 seconds : 289 links scanned, 219 files written (12226886 bytes overall) [8228201 bytes received at 19923 bytes/sec], 5657447 bytes transferred using HTTP compression in 175 files, ratio 19%, 3.2 requests per connection
+(27 errors, 68 warnings, 0 messages)

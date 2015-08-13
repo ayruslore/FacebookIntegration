@@ -1,0 +1,2 @@
+var markers=[];
+var infoWindowContent =[];

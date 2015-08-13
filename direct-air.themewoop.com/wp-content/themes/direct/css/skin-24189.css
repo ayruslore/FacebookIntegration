@@ -1,0 +1,122 @@
+body{
+	background: #FFFFFF !important;
+}
+a{
+	color: #ff5a5f;
+}
+/**
+ * Background
+ */
+.form-table select,
+.form.pmpro_form .input, form.pmpro_form textarea, .input,form.pmpro_form select,
+#your-profile .form-table input[type="text"],#your-profile .form-table input[type="password"],#description,
+.fancy-select .options,
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success,
+.wrap-main-form .cmb-td input[type="text"], .wrap-main-form .cmb-td input[type="email"], .wrap-main-form .cmb-td input[type="number"],
+.pagination li a:hover,.pagination li span:hover,
+.pagination li span,
+.step-head span,
+.flatRoundedCheckbox input[type="checkbox"]:checked ~ div,
+.woocommerce form .form-row .input-text, .woocommerce form .form-row textarea, .woocommerce-cart table.cart td.actions .coupon .input-text,
+.table > thead > tr > th,
+.wrap-reviews .form-group input,
+#respond h3:after,
+.comment-reply-link,
+.average-rating-comment,
+.info-tabbed li.active a, .nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus,
+.direct-action-button:hover,
+.footer-section > span,
+.featured-icon i,
+.pricing-order:hover,
+.loadmore a,
+.label-bottom,
+.directory-section .directory-filter li.active a, .directory-section .directory-filter li a:hover,
+.site-title span,
+.home-search-button,
+.home-post-button,
+.fancy-select .trigger,
+.big-bubble-input,
+.login-handle > a,
+#navbar .nav > li > a:after{
+	background-color: #ff5a5f !important;
+}
+.direct-category{
+	background-image: url(../img/pin-2.png);
+}
+.pricing-order:hover i{
+	background: #dd494d;
+	color: #ff5a5f;
+}
+#mask {
+    background-color: #FFFFFF !important;
+}
+.location_indicator:before{
+	box-shadow: 0px 0px 0px 2px rgba(255,90,95,1) !important;
+}
+/**
+ * Text Color
+ */
+.wrap-meta-infowindow .direct-field i,
+.wrap-meta-infowindow h3 a,
+.breadcrumb li.active,
+.wrap-roundedcheckbox:hover span,
+.display-handle a.active,
+.filter-result .site-title strong,
+.direct-services ul li:hover a,
+.top-side-section .direct-field i,
+.direct-item h3 a:hover,
+.credits ul li a:hover,
+.footer-recent-blog h3 a:hover,
+.wrap-meta-blog h3 a:hover,
+.featured-item:hover .featured-meta h4,
+.pricing-box p,
+.star-on,
+.search-handle a,
+.dropdown-menu > li > a:focus,
+.dropdown-menu li a span,
+.mega-menu > .dropdown-menu li a:hover,
+.direct-dropdown-menu li a:hover,
+#navbar .nav > li.active a,
+#navbar .nav > li > a:hover{
+	color: #ff5a5f !important;
+}
+.login-handle a:hover{
+	color: #FFFFFF !important;
+}
+.logged-handle a{
+	color: #FFFFFF !important;
+}
+/**
+ * Misc
+ */
+.meta-map h1{
+	color: #FFFFFF;
+	text-shadow: none;
+	letter-spacing: 5px;
+}
+.meta-map p{
+	font-size: 18px;
+	color: #FFFFFF;
+	text-shadow: none;
+	text-transform: uppercase;
+}
+.directory-section,
+.featured-section,
+.blogs-section{
+	background: #f4f4f4 !important;
+}
+.col-md-12 .direct-item-premium{
+	border-right-color: #ff5a5f;
+}
+.flatRoundedCheckbox input[type="checkbox"]:checked ~ label{
+	background: #e2494d;
+}
+blockquote{
+	border-left-color: #ff5a5f;
+}
+.pagination li span{
+	border-color: #ff5a5f;
+}
+.fancy-select .options{
+	border-top-color: #ff5a5f !important;
+}

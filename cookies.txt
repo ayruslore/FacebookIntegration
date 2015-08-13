@@ -1,0 +1,5 @@
+# HTTrack Website Copier Cookie File
+# This file format is compatible with Netscape cookies
+direct-air.themewoop.com	TRUE	/	FALSE	1999999999	PHPSESSID	0rd242nn3kpav7ei5le6ojkt47
+www.thetattershallcastle.co.uk	TRUE	/	FALSE	1999999999	october_session	eyJpdiI6IlRcL1BraHk5R1Y3QXJvZ0VISTFMTzB3PT0iLCJ2YWx1ZSI6Im1XTmkzaENQbkM2a1pyNHJ6TkhmNndlbTE3am16eTFzNDlYeXE1S2lvMUI2clpCQ1hKUmIyV1JTU2VQVVpVRDQxQmlDMGpSWmhkZ2wrZ1FhSmZrUkpnPT0iLCJtYWMiOiIyZjE1NTAwYjM5ZjdmYzU3NDM3NTBkZDM0OTEyYzk3MGU5MjIzNzdjYzZkYWZkZGIzOTRiNzg3ZThhYTQxNzkyIn0%3D
+

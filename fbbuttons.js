@@ -69,6 +69,115 @@ app.post('/', function (req, res) {
   }
 });
 
+
+//function to call api.ai
+function sendMessage(event){
+let sender=event.sender.id;
+let text=event.message.text;
+
+let apiai = apiaiApp.textRequest(text, {
+    sessionId: sender // use any arbitrary id
+  });
+
+
+//sending response to facebook 
+  apiai.on('response', (response) => {
+  console.log(response);
+  
+if(response.result.action ){
+    console.log("enter");
+    //conditions
+    aiText="wwait";
+  if( response.result.parameters.area  ){
+    flag=1;
+      var Client = require('node-rest-client').Client;
+ 
+var client = new Client();
+ 
+// direct way 
+client.get("http://localhost:8080/area/Banashankari", function (data, response) {
+    // parsed response body as js object 
+    var result="";
+    //console.log(data);
+   // aiText="wait";
+    for(x in data){
+      console.log(x);
+      //console.log(data[x]);
+      //console.log(data[x].Name);
+      //result +=x;
+      console.log(result);
+      aiText=x;
+      request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:'EAAGKxD7nqdgBAAo1RQ7r0aymfy6VO0ZCQlVdX6zpUnoZC98qcZA5tdDjla9sZBz5BZBt8mRkZC2boI1Edt26FpEDEeNEYBDYvGogVQeBBNhYLQ8eg7DgmXUIEeAeSi9JamkhmcTrQ2MGtIl83ykCaGAZCmRxe3bgEN3OIlniiALPQZDZD' },
+      method: 'POST',
+      json: {
+        recipient: {id: sender},
+        message: {text: aiText}
+      }
+    }, (error, response) => {
+      if (error) {
+          console.log('Error sending message: ', error);
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error);
+      }
+    });
+    }
+//aiText="call";
+    
+   // aiText=r;
+
+    // raw response 
+   // console.log(response);
+  // aiText="wait";
+});
+
+   flag=0;   
+        
+  }
+}
+  else {
+  
+  aiText = response.result.fulfillment.speech;
+  console.log(typeof aiText);
+  console.log(flag);
+  }
+ // console.log(aiText);
+
+    console.log("sdfvgbh");
+    if(flag==0){
+      console.log(flag);
+    request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:'EAAGKxD7nqdgBAAo1RQ7r0aymfy6VO0ZCQlVdX6zpUnoZC98qcZA5tdDjla9sZBz5BZBt8mRkZC2boI1Edt26FpEDEeNEYBDYvGogVQeBBNhYLQ8eg7DgmXUIEeAeSi9JamkhmcTrQ2MGtIl83ykCaGAZCmRxe3bgEN3OIlniiALPQZDZD' },
+      method: 'POST',
+      json: {
+        recipient: {id: sender},
+        message: {text: aiText}
+      }
+    }, (error, response) => {
+      if (error) {
+          console.log('Error sending message: ', error);
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error);
+      }
+    });
+  }
+  
+ });
+
+
+
+  apiai.on('error', (error) => {
+    console.log(error);
+  });
+
+  apiai.end();
+}
+
+
+
+
 // Incoming events handling
 function receivedMessage(event) {
   var senderID = event.sender.id;
@@ -353,4 +462,4 @@ function callSendAPI(messageData) {
 // Set Express to listen out for HTTP requests
 var server = app.listen(process.env.PORT || 5000, function () {
   console.log("Listening on port %s", server.address().port);
-});
+}); 

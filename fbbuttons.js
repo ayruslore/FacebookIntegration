@@ -48,7 +48,7 @@ app.post('/', function (req, res) {
       // Iterate over each messaging event
       entry.messaging.forEach(function(event) {
         if (event.message) {
-          receivedMessage(event);
+          sendMessage(event);
       //    receivedPostback(event);
         } else if (event.postback) {
           receivedPostback(event);

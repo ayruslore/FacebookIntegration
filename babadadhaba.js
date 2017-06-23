@@ -5,7 +5,9 @@ const request = require('request');
 const path = require('path');
 const apiaiApp = require('apiai')('9afd07100b9a4f27ae0f03eda9e3c752');
 var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
-
+var mongo = require('mongodb');
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/mydb";
 
 // The rest of the code implements the routes for our Express server.
 let app = express();
@@ -108,7 +110,7 @@ let apiai = apiaiApp.textRequest(text, {
   else if(response.result.action==='order.webview'){
    	console.log("3");
  
-    sendGenericMessage(sender);
+    sendButton(sender);
     //open webview
     console.log("here there");
     //receivedMessage(event);
@@ -116,10 +118,11 @@ let apiai = apiaiApp.textRequest(text, {
   else if(response.result.action==='order.dish'){
   	console.log("4");
   }
-  else if(response.result.action==='show.menu'){
+/*  else if(response.result.action==='show.menu'){
   	//webview
+  	sendButton(sender);
   	console.log("5");
-  }
+  }*/
 
   else {
   
@@ -134,7 +137,7 @@ let apiai = apiaiApp.textRequest(text, {
       console.log(flag);
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {access_token:'EAABymJOpyMABAOPX8SRlf6pAfGUwxEDtJnYNffEgHOTpvx7pODTpU70oNF1a1samoZA1VHMoiZCp932XDkVgOVPKx0UQs56S7OnZBOz9kFwICDq1I0yRy8oeZBYVj12SxFsZBNZB0uDxGcn9bxAZA4A4vFaHgZAHCdfqxzVhJtoeCAZDZD' },
+      qs: {access_token:'EAAGeBZBDgxFUBAFCprolrPm3NA3iGL3OobCkQMmjm5HVhrcLzr18dcL3ZBUGneYZBjaZCE8cCMDOFoZAjsLVthgVeDTMHHbinGihLdKAZAMKkTXiFN2MZAu9ymnRTkjAtTgtRCu7GtuxwZC4hb8IdFqXZAsQklgZBkd4GpkWKaCMyAzAZDZD' },
       method: 'POST',
       json: {
         recipient: {id: sender},
@@ -248,8 +251,12 @@ function sendGenericMessage(recipientId) {
         content_type:"text",
         title:"Show menu",
         payload:"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
-        image_url:"http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg"
+        image_url:"http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg",
+        //url:"http://petershats.parseapp.com/hat-news",
+       // webview_height_ratio:"full"
       },
+        
+      
     
           ]
   }
@@ -260,14 +267,36 @@ function sendGenericMessage(recipientId) {
 
 }
 
-
+function sendButton(recipientId){
+  var messageData={recipient:{
+    id:recipientId
+  },
+  message:{
+    attachment:{
+      type:"template",
+      payload:{
+        template_type:"button",
+        text:"What do you want to do next?",
+        buttons:[
+          {
+            type:"web_url",
+            url:"http://babadadhaba.co/",
+            title:"Show menu",
+            webview_height_ratio:"tall"
+          }
+        ]
+      }
+    }
+  }
+}; callSendAPI(messageData);
+}
 
 
 
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAABymJOpyMABAOPX8SRlf6pAfGUwxEDtJnYNffEgHOTpvx7pODTpU70oNF1a1samoZA1VHMoiZCp932XDkVgOVPKx0UQs56S7OnZBOz9kFwICDq1I0yRy8oeZBYVj12SxFsZBNZB0uDxGcn9bxAZA4A4vFaHgZAHCdfqxzVhJtoeCAZDZD' },
+    qs: { access_token: 'EAAGeBZBDgxFUBAFCprolrPm3NA3iGL3OobCkQMmjm5HVhrcLzr18dcL3ZBUGneYZBjaZCE8cCMDOFoZAjsLVthgVeDTMHHbinGihLdKAZAMKkTXiFN2MZAu9ymnRTkjAtTgtRCu7GtuxwZC4hb8IdFqXZAsQklgZBkd4GpkWKaCMyAzAZDZD' },
     method: 'POST',
     json: messageData
 

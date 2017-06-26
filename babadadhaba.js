@@ -88,7 +88,7 @@ let apiai = apiaiApp.textRequest(text, {
   });
 
 
-//sending response to facebook 
+//sending response to facebook
   apiai.on('response', (response) => {
   console.log(response);
 //whenever we have something we can tell about we'll drag them to our recommendation engine
@@ -101,7 +101,7 @@ let apiai = apiaiApp.textRequest(text, {
  if( response.result.action==='recommend.specials'){
    //cards
    console.log("1");
-        
+
   }
   else if(response.result.action==='recommend.dish'){
    //cards
@@ -109,23 +109,87 @@ let apiai = apiaiApp.textRequest(text, {
   }
   else if(response.result.action==='order.webview'){
    	console.log("3");
- 
+
+
     sendButton(sender);
     //open webview
     console.log("here there");
+
     //receivedMessage(event);
   }
   else if(response.result.action==='order.dish'){
+    console.log(response.result.parameters.Dish);
+     var arr,number,key;
+     var query={};
+     key= sender.toString();
+    MongoClient.connect(url, function(err, db) {
+   if (err) throw err;
+  /*  db.createCollection("customers",function(err,res){
+     if(err) throw err;
+     console.log("Table created");
+   });*/
+     
+     query[key]="id";
+     console.log("query",query);
+     db.collection("customers").find(query).toArray(function(err,result){
+     if(err) throw err;
+     if(result.length!=0){
+      console.log("found app");
+      console.log(result);
+     }
+     else{
+      console.log("create");
+      arr=response.result.parameters.Dish;
+      number=response.result.parameters.number;
+      key= sender.toString();
+      var myobj= {order:arr,quantity:number};
+      myobj[key]="id";
+      db.collection("customers").insertOne(myobj,function(err,res){
+       if(err) throw err;
+       console.log("inserted");
+       myobj[key]="id";
+     db.collection("customers").insertOne(myobj,function(err,res){
+       if(err) throw err;
+       console.log("inserted");
+   });
+   });
+     }
+   })
+     //var myobj= {order:arr,quantity:number};
+    // myobj[key]="id";
+     /*db.collection("customers").insertOne(myobj,function(err,res){
+       if(err) throw err;
+       console.log("inserted");
+   });*/
+  /* db.collection("customers").find({}).toArray(function(err,result){
+     if(err) throw err;
+     console.log(result);
+   })*/
+ /* if(typeof db.customers.find( {key : { $exists: false } } )==undefined){
+    console.log("mil gyA");
+  }
+    else{console.log(db.customers.find( {key : { $exists: false } } ));
+  }*/
+  console.log("query result");
+  /* var query={};
+   query['123']="id";
+   db.collection("customers").find(query).toArray(function(err,result){
+     if(err) throw err;
+     console.log(result);
+   })*/
+   //console.log("Database created!");
+  // db.close();
+ });
   	console.log("4");
   }
-/*  else if(response.result.action==='show.menu'){
+ else if(response.result.action==='show.menu'){
   	//webview
   	sendButton(sender);
   	console.log("5");
-  }*/
+  }
 
   else {
-  
+
   aiText = response.result.fulfillment.speech;
   console.log(typeof aiText);
   console.log(flag);
@@ -137,7 +201,7 @@ let apiai = apiaiApp.textRequest(text, {
       console.log(flag);
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {access_token:'EAAGeBZBDgxFUBAFCprolrPm3NA3iGL3OobCkQMmjm5HVhrcLzr18dcL3ZBUGneYZBjaZCE8cCMDOFoZAjsLVthgVeDTMHHbinGihLdKAZAMKkTXiFN2MZAu9ymnRTkjAtTgtRCu7GtuxwZC4hb8IdFqXZAsQklgZBkd4GpkWKaCMyAzAZDZD' },
+      qs: {access_token:'EAAGeBZBDgxFUBACwjKomnFPMwZB1CkbsCi4Wr1Ko63wgks475kJUZC0CZAY5cII91wuZAfJrdbDYFODIqACQxUCNDZAJ9CI9S3RgEwxP2le2eK9t8FEPpUlMSfYO3oDWo8piM2HT7b9RhKZAonIDT3ZBSFEQ00rPObB6VZBuaimyNmAZDZD' },
       method: 'POST',
       json: {
         recipient: {id: sender},
@@ -151,7 +215,7 @@ let apiai = apiaiApp.textRequest(text, {
       }
     });
   }
-  
+
  });
 
 
@@ -204,7 +268,7 @@ function receivedMessage(event) {
 }
 
 
-//postback and payload 
+//postback and payload
 function receivedPostback(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -255,9 +319,9 @@ function sendGenericMessage(recipientId) {
         //url:"http://petershats.parseapp.com/hat-news",
        // webview_height_ratio:"full"
       },
-        
-      
-    
+
+
+
           ]
   }
 };
@@ -296,7 +360,7 @@ function sendButton(recipientId){
 function callSendAPI(messageData) {
   request({
     uri: 'https://graph.facebook.com/v2.6/me/messages',
-    qs: { access_token: 'EAAGeBZBDgxFUBAFCprolrPm3NA3iGL3OobCkQMmjm5HVhrcLzr18dcL3ZBUGneYZBjaZCE8cCMDOFoZAjsLVthgVeDTMHHbinGihLdKAZAMKkTXiFN2MZAu9ymnRTkjAtTgtRCu7GtuxwZC4hb8IdFqXZAsQklgZBkd4GpkWKaCMyAzAZDZD' },
+    qs: { access_token: 'EAAGeBZBDgxFUBACwjKomnFPMwZB1CkbsCi4Wr1Ko63wgks475kJUZC0CZAY5cII91wuZAfJrdbDYFODIqACQxUCNDZAJ9CI9S3RgEwxP2le2eK9t8FEPpUlMSfYO3oDWo8piM2HT7b9RhKZAonIDT3ZBSFEQ00rPObB6VZBuaimyNmAZDZD' },
     method: 'POST',
     json: messageData
 
@@ -318,4 +382,4 @@ function callSendAPI(messageData) {
 // Set Express to listen out for HTTP requests
 var server = app.listen(process.env.PORT || 5000, function () {
   console.log("Listening on port %s", server.address().port);
-}); 
+});

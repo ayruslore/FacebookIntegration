@@ -1,0 +1,871 @@
+/* Vaibhav Aggarwal 4 july,2017 */
+
+'use strict';
+const express = require('express');
+const bodyParser = require('body-parser');
+const request = require('request');
+const path = require('path');
+const apiaiApp = require('apiai')('9afd07100b9a4f27ae0f03eda9e3c752');
+var messengerButton = "<html><head><title>Facebook Messenger Bot</title></head><body><h1>Facebook Messenger Bot</h1>This is a bot based on Messenger Platform QuickStart. For more details, see their <a href=\"https://developers.facebook.com/docs/messenger-platform/guides/quick-start\">docs</a>.<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div></body></html>";
+//var mongo = require('mongodb');
+//var MongoClient = require('mongodb').MongoClient;
+//var url = "mongodb://localhost:27017/mydb";
+var http = require('http');
+var Promise = require("bluebird");
+var request_1 = Promise.promisifyAll(require("request"));
+var activelink='http://129.144.182.67:4000/';
+var recommendationlink = 'http://129.144.182.67:3000/';
+
+
+// The rest of the code implements the routes for our Express server.
+let app = express();
+let aiText="";
+let biText={};
+let flag = 0;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+// Webhook validation
+app.get('/', function(req, res) {
+  if (req.query['hub.mode'] === 'subscribe' &&
+      req.query['hub.verify_token'] === 'tuxedo_cat') {
+    console.log("Validating webhook");
+    res.status(200).send(req.query['hub.challenge']);
+  } else {
+    console.error("Failed validation. Make sure the validation tokens match.");
+    res.sendStatus(403);
+  }
+});
+
+// Display the web page
+app.get('/', function(req, res) {
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  res.write(messengerButton);
+  res.end();
+});
+
+// Message processing
+app.post('/', function (req, res) {
+  console.log(req.body);
+  var data = req.body;
+
+  // Make sure this is a page subscription
+  if (data.object === 'page') {
+
+    // Iterate over each entry - there may be multiple if batched
+    data.entry.forEach(function(entry) {
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
+
+      // Iterate over each messaging event
+      entry.messaging.forEach(function(event) {
+        if (event.message) {
+          console.log(event.message);
+          if(("quick_reply" in event.message)==true){
+            sendTextMessage(event.sender.id,"confirmed");
+            receivedPostbackQuick(event.message.quick_reply);
+          }
+          else{
+            sendMessage(event);
+        }
+      //    receivedPostback(event);
+        } else if (event.postback) {
+            receivedPostback(event);
+        } else {
+            console.log("Webhook received unknown event: ", event);
+        }
+      //  receivedPostback(event);
+      });
+
+    });
+
+    // Assume all went well.
+    //
+    // You must send back a 200, within 20 seconds, to let us know
+    // you've successfully received the callback. Otherwise, the request
+    // will time out and we will keep trying to resend.
+    res.sendStatus(200);
+  }
+});
+
+
+//function to call api.ai
+function sendMessage(event){
+let sender=event.sender.id;
+let text=event.message.text;
+
+
+let apiai = apiaiApp.textRequest(text, {
+    sessionId: sender // use any arbitrary id
+  });
+
+
+//sending response to facebook
+  apiai.on('response', (response) => {
+  console.log(response);
+//whenever we have something we can tell about we'll drag them to our recommendation engine
+//recommend.specials,recommend.dish
+   // console.log("here");
+
+
+ if( response.result.action==='recommend.specials'){
+   //cards
+   console.log("1");
+  // genericCards(sender);
+   dataRequest(sender,2,["veg-roll","shake"],["http://assets.limetray.com/assets/user_images/menus/compressed/1464758752_Paneer-Tikka-Roll.jpg","http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg"]);
+
+  }
+  else if(response.result.action==='recommend.dish'){
+   //cards
+   var vnv ='k';
+   if (response.result.parameters.vnv!='')
+      vnv =response.result.parameters.vnv;
+   var bi ='k';
+   if (response.result.parameters.bi!='')
+      bi =response.result.parameters.bi;
+   var cat ='k';
+   if (response.result.parameters.cat!='')
+      cat =response.result.parameters.cat
+   var final = recommendationlink + 'recommend/'+vnv +'/'+bi+'/'+cat;
+   console.log(final);
+   callrecommend(final,sender);
+   //dataRequest(sender,2);
+   console.log("2");
+  }
+  else if(response.result.action==='order.webview'){
+   	console.log("3");
+
+    
+    var link="http://ec2-13-58-254-247.us-east-2.compute.amazonaws.com" + "?userId=" + sender;
+    sendButton(sender,"what would to like to have?",link,"Show Menu!","tall");
+    //open webview
+    console.log("here there");
+
+    //receivedMessage(event);
+  }
+  else if(response.result.action==='order.dish'){
+   
+      console.log(response.result.parameters.Dish);
+      console.log(response.result.parameters.number);
+      var dish=response.result.parameters.Dish;
+      var quantity=response.result.parameters.number;
+      console.log(dish);
+      var dict = {};
+      var newdish=[];
+      for(var j=0;j<dish.length;j++){
+        newdish[j] = dish[j].replace(/\s+/g, '_');
+      }
+      console.log(dish);
+      for(var i=0;i<dish.length;i++){
+
+        dict[newdish[i]]=quantity[i];
+      }
+      var myjson= JSON.stringify(dict);
+      var add ='cart/' + sender + '/add/' + myjson;
+      //callSendRedis(add);
+      var final = activelink + add;
+      console.log(add);
+       aiText=response.result.fulfillment.speech;
+       console.log(aiText);
+       console.log(sender);
+      callSendRedisapi(final,sender,aiText);
+ 
+
+ }
+  
+ else if(response.result.action==='show.menu'){
+  	//webview
+    var link="http://ec2-13-58-254-247.us-east-2.compute.amazonaws.com" + "?userId=" + sender;
+  	sendButton(sender,"what would to like to have?",link,"Show Menu!","tall");
+  	console.log("5");
+  }
+  else if(response.result.action==='order.cancel'){
+    //cancel
+    cancel='cart/' + sender + '/cancel';
+    final =activelink + cancel;
+     aiText=response.result.fulfillment.speech;
+    callSendRedisapi(final,sender,aiText);
+  
+  }
+  else if(response.result.action==='order.remove'){
+    //redis remove commmand
+    /*var dish=response.result.parameters.Dish;
+      var quantity=response.result.parameters.number;
+      var dict = {};
+      for(var i=0;i<dish.length;i++){
+        dict[dish[i]]=quantity[i];
+      }
+      var myjson= JSON.stringify(dict);
+      var replace='cart/' + sender + '/replace/' + myjson;
+      //callSendRedis(add);
+      var final = activelink + add;
+      console.log(replace);
+      callSendRedis(final);*/
+      var dish=response.result.parameters.Dish;
+      var quantity=response.result.parameters.number;
+      console.log(dish);
+      var dict = {};
+      var newdish=[];
+      for(var j=0;j<dish.length;j++){
+        newdish[j] = dish[j].replace(/\s+/g, '_');
+      }
+      console.log(dish);
+      for(var i=0;i<dish.length;i++){
+
+        dict[newdish[i]]=-quantity[i];
+      }
+      console.log("remove",dict);
+      var myjson= JSON.stringify(dict);
+      var add ='cart/' + sender + '/add/' + myjson;
+      //callSendRedis(add);
+      var final = activelink + add;
+      console.log(add);
+       aiText=response.result.fulfillment.speech;
+      callSendRedisapi(final,sender,aiText);
+     // sendTextMessage(response.result.fulfillment.speech);
+ 
+  }
+   else if(response.result.action==='order.payment'){
+    //cancel
+    //redis cancel commmand
+   
+     sendReciept(sender);
+     sendButton(sender,'how would you like to pay?',"http://ec2-13-58-254-247.us-east-2.compute.amazonaws.com","RazorPay","tall");
+   
+  }
+  else if(response.result.action==='viewcart'){
+    // sendQuickreply(sender,"Are you sure?","Yes","Confirm_Yes","no","Confirm_NO");
+    console.log("fvccwd");
+     var show = 'cart/'+sender + '/show';
+    var final= activelink + show;
+    callSendRedis(final,sender);
+   // sendReciept(sender);
+    //console.log("dds",order);
+
+  }
+  else if(response.result.action==='order.delete'){
+    var final =activelink + 'cart/' + sender + '/delete';
+    console.log("delete");
+     aiText=response.result.fulfillment.speech;
+    callSendRedisapi(final,sender,aiText);
+  }
+  else if(response.result.action==='order.confirm' ){
+    //sendTextMessage(sender,"How would you like to pay?");
+    aiText=response.result.fulfillment.speech;
+    sendTextMessage(sender,aiText);
+    //sendQuickreply(sender,aiText,"Confirm_Yes","Confirm_Yes","no","Confirm_NO");
+    var show = 'cart/'+sender + '/show';
+    var final= activelink + show;
+   callSendRedisconfirm(final,sender);
+   // sendButton(sender,'how would you like to pay?',"http://babadadhaba.co/","RazorPay","tall");
+  }
+
+  else if(response.result.action==='Confirm.Confirm-yes'){
+   // sendReciept(sender);
+    sendButton(sender,'how would you like to pay?',"http://ec2-13-58-254-247.us-east-2.compute.amazonaws.com","RazorPay","tall");
+  
+  }
+
+  else {
+    console.log("else");
+  aiText = response.result.fulfillment.speech;
+  console.log(typeof aiText);
+  console.log(flag);
+ // }
+  console.log(aiText);
+
+  //  console.log("sdfvgbh");
+    //if(flag==0){
+      console.log(flag);
+    request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:'EAAHdua7I9ZAsBAEBnlYDikAZA6Ij7kOvVouyZAzcmbXp0GBNoCwJ0pnPLYvxT3kJFtosbDHwTQgfJVfnmxZAV2WZBvtW4pjOpWJxyZC6JNp0EdqC0WdUtrfSFLzUQjXt7YR2ZCFHLPyBzCjCMVZCqZALzpT7xrVVL93dg4Enn61Ug2d5IG9UwHuif' },
+      method: 'POST',
+      json: {
+        recipient: {id: sender},
+        message: {text: aiText}
+      }
+    }, (error, response) => {
+      if (error) {
+          console.log('Error sending message: ', error);
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error);
+      }
+    });
+  }
+
+ });
+
+
+
+  apiai.on('error', (error) => {
+    console.log(error);
+  });
+
+  apiai.end();
+}
+
+
+
+
+// Incoming events handling
+function receivedMessage(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfMessage = event.timestamp;
+  var message = event.message;
+
+  console.log("Received message for user %d and page %d at %d with message:",
+    senderID, recipientID, timeOfMessage);
+  console.log(JSON.stringify(message));
+
+  var messageId = message.mid;
+
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+//  sendGenericMessage_persistent(senderID,messageText);
+   // sendGenericMessage_getstarted(senderID,messageText);
+
+  if (messageText) {
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the template example. Otherwise, just echo the text we received.
+    //sendGenericMessage_getstarted(senderID,messageText);
+    switch (messageText) {
+      case 'generic':
+        sendGenericMessage(senderID,messageText);
+        break;
+     case 'Confirm_Yes':
+        sendTextMessage(senderID,messageText);
+        break;
+      default:
+        console.log('recieved');
+        sendTextMessage(senderID, messageText);
+    }
+  } else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  }
+}
+
+
+//postback and payload
+function receivedPostback(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfPostback = event.timestamp;
+
+  // The 'payload' param is a developer-defined field which is set in a postback
+  // button for Structured Messages.
+  var payload = event.postback.payload;
+
+  console.log("Received postback for user %d and page %d with payload '%s' " +
+    "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  // When a postback is called, we'll send a message back to the sender to
+  // let them know it was successful
+ // sendTextMessage(senderID, "Postback called");
+  if (payload) {
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the template example. Otherwise, just echo the text we received.
+    //sendGenericMessage_getstarted(senderID,messageText);
+    switch (payload) {
+      case 'Payload for first bubble':
+        sendTextMessage(senderID,payload);
+        break;
+     case 'Show menu':
+        sendGenericMessage_rolls(senderID,messageText);
+        break;
+     case 'Confirm_Yes':
+        sendTextMessage(senderID,payload);
+      default:
+       // sendTextMessage(senderID, payload);
+        var dict={};
+        dict[payload]="1";
+        var myjson= JSON.stringify(dict);
+        var add ='cart/' + senderID + '/add/' + myjson;
+        //callSendRedis(add);
+        var final = activelink + add;
+        console.log(add);
+       // aiText=response.result.fulfillment.speech;
+        //console.log(aiText);
+        //console.log(sender);
+        var reply="A "+ payload + " has been added";
+        sendTextMessage(senderID,reply);
+       // callSendRedisapi(final,senderID,"");
+    }
+  } 
+}
+
+function receivedPostbackQuick(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfPostback = event.timestamp;
+
+  // The 'payload' param is a developer-defined field which is set in a postback
+  // button for Structured Messages.
+  var payload = event.postback.payload;
+
+  console.log("Received postback for user %d and page %d with payload '%s' " +
+    "at %d", senderID, recipientID, payload, timeOfPostback);
+
+  // When a postback is called, we'll send a message back to the sender to
+  // let them know it was successful
+ // sendTextMessage(senderID, "Postback called");
+  if (payload) {
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the template example. Otherwise, just echo the text we received.
+    //sendGenericMessage_getstarted(senderID,messageText);
+    switch (payload) {
+      case 'Payload for first bubble':
+        sendTextMessage(senderID,payload);
+        break;
+     
+    }
+  } 
+}
+
+//////////////////////////
+// Sending helpers
+//////////////////////////
+function sendTextMessage(recipientId, messageText) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: messageText
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+function sendQuickreply(recipientId,text,title,payload,title2,payload2) {
+  //console.log(event.message.text);
+  var messageData = {
+
+   recipient :{
+      id: recipientId
+    },
+    message: {text:text,
+    quick_replies:[
+      {
+        content_type:"text",
+        title:title,
+        payload:payload,
+        image_url:"http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg",
+        //url:"http://petershats.parseapp.com/hat-news",
+       // webview_height_ratio:"full"
+      },
+      {content_type:"text",
+        title:title2,
+        payload:payload2,
+        image_url:"http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg",
+        //url:"http://petershats.parseapp.com/hat-news",
+       // webview_height_ratio:"full"
+     }
+
+
+          ]
+  }
+};
+  callSendAPI(messageData);
+//  console.log("before if conditon");
+//  console.log(event.message.text);
+
+}
+
+function sendButton(recipientId,text,link,caption,size){
+  var messageData={recipient:{
+    id:recipientId
+  },
+  message:{
+    attachment:{
+      type:"template",
+      payload:{
+        template_type:"button",
+        text:text,
+        buttons:[
+          {
+            type:"web_url",
+            url:link,
+            title:caption,
+            webview_height_ratio:size
+          }
+        ]
+      }
+    }
+  }
+}; callSendAPI(messageData);
+}
+
+function genericCards(recipientId){
+var size;
+var title = new Array(size);
+title[1]="Veg-rolls";
+title[2]="Shakes";
+var imageurl=new Array(size);
+imageurl[1]="http://assets.limetray.com/assets/user_images/menus/compressed/1464758752_Paneer-Tikka-Roll.jpg";
+imageurl[2]= "http://assets.limetray.com/assets/user_images/menus/compressed/1464758471_Chicken-Tikka-Roll.jpg";
+
+var messageData = {
+
+   recipient :{
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+
+            title: title[1],
+           // subtitle: "Next-generation virtual reality",
+            //item_url: "https://www.oculus.com/en-us/rift/",
+            image_url:imageurl[1],
+            //webview_height_ratio: "compact",
+            buttons: [{
+              type: "web_url",
+              url: "http://babadadhaba.co/order-online",
+              title: "buy"
+            }, {
+              type: "postback",
+              title: "View more",
+              payload: "Payload for first bubble",
+            }],
+          }, {
+            title: title[2],
+            //subtitle: "Your Hands, Now in VR",
+            //item_url: "https://www.oculus.com/en-us/touch/",
+            image_url:imageurl[2],
+            buttons: [{
+              type: "web_url",
+              url: "http://babadadhaba.co/order-online",
+              title: "buy"
+            }, {
+              type: "postback",
+              title: "View more",
+              payload: "Payload for second bubble",
+            }]
+          }]
+        }
+      }
+    }
+  };
+  callSendAPI(messageData);
+}
+function toTitleCase(str){
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+      }
+
+function dataRequest(recipientId,size,titles,images){
+  console.log("called");
+  var title=titles;
+  var imageurl=images;
+  var cards =new Array(title.length);
+  console.log(cards);
+  var string;
+  var i;
+   for(var j=0;j<titles.length;j++){
+        title[j] = toTitleCase(titles[j].replace(/_/g, ' '));
+
+      }
+  for(i=0;i<title.length;i++){
+    string=makeJson(title[i],imageurl[i]);
+   // console.log(string[i]);
+    cards[i]=string;
+    console.log(cards);
+
+  }
+ //console.log(cards);
+ /* var final=new Array(2);
+  final.push(cards[0]);
+  final.push(cards[1]);*/
+//  console.log(final);
+  var messageData = {
+
+   recipient :{
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template", 
+        payload: {
+          template_type: "generic",
+          elements:cards
+        }
+      }
+    }
+  };
+  //console.log(messageData);
+ // console.log(messageData.message.attachment.payload);
+  callSendAPI(messageData);  
+}
+
+
+function sendReciept(recipientID,titles,quantity){
+
+  var cards =new Array(titles.length);
+  console.log(cards);
+  var string;
+  var i;
+  var total=0;
+   for(var j=0;j<titles.length;j++){
+        titles[j] = toTitleCase(titles[j].replace(/_/g, ' '));
+
+      }
+  for(i=0;i<titles.length;i++){
+    string=makeJsonreceipt(titles[i],quantity[i]);
+   // console.log(string[i]);
+    total +=quantity[i]; 
+    cards[i]=string;
+    console.log(cards);
+
+  }
+  total = total;
+  console.log(total);
+
+var messageData={"recipient":{
+    id:recipientID
+  },
+  message:{
+    attachment:{
+      type:"template",
+      payload:{
+        template_type:"receipt",
+        recipient_name:"Customer",
+        order_number:recipientID,
+        currency:"INR",
+        payment_method:"Razorpay",        
+        order_url:"http://babadadhaba.co/",
+        timestamp:"1428444852", 
+        elements:cards,
+        address:{
+          street_1:"Sector-6",
+          street_2:"",
+          city:"Karnal",
+          postal_code:"132001",
+          state:"HARYANA",
+          country:"INDIA"
+        },
+        summary:{
+          subtotal:1000,
+          shipping_cost:4.95,
+          total_tax:6.19,
+          total_cost: 4.95 + 6.19
+        },
+        adjustments:[
+          {
+            name:"New Customer Discount",
+            amount:20
+          },
+          {
+            name:"10 Off Coupon",
+            amount:10
+          }
+        ]
+      }
+    }
+  }
+};callSendAPI(messageData);
+}
+
+function makeJsonreceipt(title,quantity){
+  var elements={
+
+            title: title,
+           // subtitle: "Next-generation virtual reality",
+            //item_url: "https://www.oculus.com/en-us/rift/",
+            quantity : quantity,
+            price : 100 * quantity,
+            currency:"INR",
+            image_url:"http://assets.limetray.com/assets/user_images/logos/original/Logos_1464774908.png"
+                    }
+  return elements;
+}
+
+function makeJson(title,imageurl){
+  var elements={
+
+            title: title,
+           // subtitle: "Next-generation virtual reality",
+            //item_url: "https://www.oculus.com/en-us/rift/",
+            image_url:imageurl,
+            //webview_height_ratio: "compact",
+            buttons: [{
+              type: "postback",
+              title: "buy",
+              payload: title
+            }],
+          }
+  return elements;
+}
+
+function callSendRedisapi(operation,sender,aiText){
+  request_1.getAsync({
+    url:operation,
+    method: 'GET'
+}).then(function(res,err){
+  var body = ''; // Will contain the final response
+  // Received data is a buffer.
+  // Adding it to our body
+  console.log("final");
+  if(err) throw err;
+  console.log(res.body);
+ // sendTextMessage(sender,aiText);
+  //return res.body
+   //console.log(body);
+     request({
+      url: 'https://graph.facebook.com/v2.6/me/messages',
+      qs: {access_token:'EAAHdua7I9ZAsBAEBnlYDikAZA6Ij7kOvVouyZAzcmbXp0GBNoCwJ0pnPLYvxT3kJFtosbDHwTQgfJVfnmxZAV2WZBvtW4pjOpWJxyZC6JNp0EdqC0WdUtrfSFLzUQjXt7YR2ZCFHLPyBzCjCMVZCqZALzpT7xrVVL93dg4Enn61Ug2d5IG9UwHuif' },
+      method: 'POST',
+      json: {
+        recipient: {id: sender},
+        message: {text: aiText}
+      }
+    }, (error, response) => {
+      if (error) {
+          console.log('Error sending message: ', error);
+      } else if (response.body.error) {
+          console.log('Error: ', response.body.error);
+      }
+    });
+});
+}
+
+function callSendRedis(operation,sender){
+  console.log("called");
+  request_1.getAsync({
+    url:operation,
+    method: 'GET'
+}).then(function(res,err){
+  var body = ''; // Will contain the final response
+  // Received data is a buffer.
+  // Adding it to our body
+  console.log("final");
+  if(err) throw err;
+  console.log(res.body);
+  //return res.body
+   var keys =[];
+   //keys = res.body;
+   //console.log(keys);
+   var dict=JSON.parse(res.body)
+   var c="";
+   for (var key in dict) {
+    console.log(key);
+    console.log(dict[key]);
+    c+= key+" : "+dict[key]+"\n";
+    console.log(c);
+    keys.push(key);
+}
+console.log(keys);
+   /*for(var i in dict){
+
+    c = i; 
+    console.log(i);
+   }*/
+
+   sendTextMessage(sender,c);
+   console.log("getyou");
+});
+}
+
+function callSendRedisconfirm(operation,sender){
+  request_1.getAsync({
+    url:operation,
+    method: 'GET'
+}).then(function(res,err){
+  var body = ''; // Will contain the final response
+  // Received data is a buffer.
+  // Adding it to our body
+  console.log("final");
+  if(err) throw err;
+  console.log(res.body);
+  //return res.body
+   var keys =[];
+   var quantity=[];
+   //keys = res.body;
+   //console.log(keys);
+   var dict=JSON.parse(res.body)
+   var c="";
+   for (var key in dict) {
+    console.log(key);
+    console.log(dict[key]);
+    c+= key+" : "+dict[key]+"\n";
+    console.log(c);
+    keys.push(key);
+    quantity.push(dict[key]);
+    
+}
+console.log(keys);
+   /*for(var i in dict){
+
+    c = i; 
+    console.log(i);
+   }*/
+   console.log(quantity);
+  sendReciept(sender,keys,quantity);
+  // sendTextMessage(sender,c);
+   console.log("getyou");
+});
+}
+
+function callrecommend(operation,sender){
+  request_1.getAsync({
+    url:operation,
+    method: 'GET'
+}).then(function(res,err){
+  var body = ''; // Will contain the final response
+  // Received data is a buffer.
+  // Adding it to our body
+  console.log(res.body);
+  var dict=JSON.parse(res.body)
+  console.log(dict["reco"]);
+  var rec=dict["reco"];
+  console.log(rec);
+   var c='';
+   var links =dict["links"];
+  rec.forEach(function(value){
+    //console.log(value);
+  c+=value +'\n';
+    console.log(c);
+  });
+ 
+  
+  c="you can try !\n" + c;
+  dataRequest(sender,5,rec,links);
+ //sendTextMessage(sender,c);
+  console.log("final");
+
+});
+}
+
+function callSendAPI(messageData) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/me/messages',
+    qs: { access_token: 'EAAHdua7I9ZAsBAEBnlYDikAZA6Ij7kOvVouyZAzcmbXp0GBNoCwJ0pnPLYvxT3kJFtosbDHwTQgfJVfnmxZAV2WZBvtW4pjOpWJxyZC6JNp0EdqC0WdUtrfSFLzUQjXt7YR2ZCFHLPyBzCjCMVZCqZALzpT7xrVVL93dg4Enn61Ug2d5IG9UwHuif' },
+    method: 'POST',
+    json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+     var recipientId = body.recipient_id;
+      var messageId = body.message_id;
+
+      console.log("Successfully sent generic message with id %s to recipient %s",
+        messageId,recipientId);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });
+}
+
+// Set Express to listen out for HTTP requests
+var server = app.listen(process.env.PORT || 3000, function () {
+  console.log("Listening on port %s", server.address().port);
+});
